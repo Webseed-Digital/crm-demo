@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
+<a href="https://travis-ci.com/github/Webseed-Digital/crm-demo"><img src="https://travis-ci.com/Webseed-Digital/crm-demo.svg?branch=master" alt="Build Status"></a>
 </p>
 
 ## Laravel CRM Demo
