@@ -1,0 +1,52 @@
+version: '3'
+services:
+  #PHP
+  app:
+    image: cyberduck/php-fpm-laravel:7.4
+    container_name: app
+    restart: unless-stopped
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+      DB_HOST: db
+    volumes:
+      - ./:/var/www
+      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    working_dir: /var/www
+
+  #NGINX
+  webserver:
+    image: nginx:alpine
+    container_name: webserver
+    restart: unless-stopped
+    ports:
+      - '3050:80'
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+
+  #MySQL
+  db:
+    container_name: db
+    image: mariadb:latest
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
+    environment:
+      - MYSQL_ROOT_PASSWORD=notarealpassword
+      - MYSQL_DATABASE=laravel
+      - MYSQL_USER=laravel
+      - MYSQL_PASSWORD=notarealpassword
+
+  #PHPMyAdmin
+  phpmyadmin:
+    image: 'phpmyadmin/phpmyadmin:latest'
+    ports:
+      - 8081:80
+    environment:
+      - PMA_HOST=db
+      - PMA_USER=root
+      - PMA_PASSWORD=notarealpassword
+volumes:
+  db_data:
+    driver: local

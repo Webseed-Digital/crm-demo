@@ -1,0 +1,14 @@
+language: generic
+sudo: required
+services:
+  - docker
+
+script:
+  - docker-compose up --build -d
+  - docker exec app composer install
+  - docker exec app cp .env.example .env
+  - docker exec app php artisan key:generate
+  - docker exec app php artisan storage:link
+  - docker exec app php artisan migrate --seed
+  - docker exec app php artisan test
+
